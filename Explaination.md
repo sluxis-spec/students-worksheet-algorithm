@@ -197,15 +197,53 @@ Additional test: starting values 10 and 20 should produce 8 11 19.
 - **What I changed in `main.go`:** I corrected the Go type declarations and conversions and initialized the best candidate using an actual member of the population.
 - **Why I believe the result is correct:** I corrected the Go type declarations and conversions and initialized the best candidate using an actual member of the population.
 
-## Task 2 — GitHub CLI and Go basic types
-- **Fork URL and branch:**
-- **Git evidence (`git remote -v`, `git log --oneline main..task-2`, at least 3 commits):** TODO
-- **Program output (`go run main.go`):** TODO
-- **Normal test (inputs and result):** TODO
-- **Boundary test (inputs and result):** TODO
-- **Invalid case I considered (e.g. dividing by zero) and what happens:** TODO
-- **Q1. Why is `7 / 2` equal to `3` but `float64(7) / float64(2)` equal to `3.5`?** TODO
-- **Q2. Why is a student ID better stored as a `string` than an `int`?** TODO
-- **Q3. What does a `const` protect you from? Give one example from this exercise.** TODO
-- **Q4. In `x > 0 && y % x == 0`, why is the order of the two conditions important?** TODO
-- **Q5. What would `fmt.Println('A')` print, and why is it not `A`?** TODO
+## Task 2 — Fill in the blank
+
+Practice for [GitHub CLI intro](docs/github-cli-intro.md) and [Go basic types](docs/go-basic-types.md). Replace every `____` with the missing word, symbol or value. **Predict first, then check** each Go answer by running it. Write your answers in your fork's `EXPLANATION.md` under *Task 2 — Fill in the blank*. Answers are not published here.
+
+### A — Git and GitHub (terminal)
+
+**Word bank:** `add` · `clone` · `diff` · `fork` · `main` · `origin` · `push` · `status` · `switch`
+
+1. A fork is your own online copy of someone else's repository.
+2. `git clone  <url>` downloads a repository to your computer.
+3. `git switch  -c task-2` creates a new branch and moves you onto it.
+4. `git status` lists the files you changed, and `git diff` shows the exact lines you added or removed.
+5. `git add  student/10_task2_types/main.go` puts a file in the box before you seal it with `git commit`.
+6. `git push  -u origin task-2` sends your commits to your fork on GitHub.
+7. `git log --oneline main..task-2` lists only the commits you made on your branch.
+8. The remote that points to **your** fork is normally called origin.
+
+### B — Go types, constants and operators
+
+9. `7 / 2` is 3 because both numbers are integer values, so the fraction is dropped.
+10. `7 % 2` is 1. The `%` operator gives the remainder of a division.
+11. `float64(7) / float64(2)` is 3.5. Go does **not** convert types implicitly (automatically).
+12. Go has no `char` type. A single character is stored as a rune (or as a byte for one ASCII byte).
+13. A student ID such as `"00123"` should be a string because we never do arithmetic on it and the leading zeros must stay.
+14. The keyword for a value that can never change is const. Reassigning it gives a compile-time error.
+15. `true && false` is false, `true || false` is true, and `!true` is false.
+16. In `x > 0 && y % x == 0`, when `x` is `0` the right side is not evaluated, so the program does not divide by zero.
+17. In Go, `=` assigns a value and `==` compares two values.
+18. `2 + 3 * 4` is 14 but `(2 + 3) * 4` is 20.
+19. With `x, y := 0.1, 0.2`, the expression `x + y == 0.3` is false because `float64` stores some decimals only approximately.
+20. `string(65)` gives "A", so use `strconv.Itoa(65)` when you want the text `"65"`.
+
+### C - Complete the program
+package main
+
+import "fmt"
+
+var taxRate = 0.1
+
+func main() {
+	price := 20000.0
+	qty := 3
+	subtotal := price * float64(qty)
+	total := subtotal + subtotal*taxRate
+	isBig := total > 50000
+	fmt.Println(total, isBig)
+}
+- Fill the three blanks so the program compiles: const, float64, >
+- Before running, predict the output: 66000 true
+- Which line would stop the program from compiling if you removed the conversion blank? Explain in one sentence: The line subtotal := price * float64(qty) would cause a compilation error because Go cannot multiply a float64 value by an int value without type conversion.
